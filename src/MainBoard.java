@@ -47,7 +47,7 @@ public class MainBoard {
     MainBoard() throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
         initButtons();
         initJFrame();
-        game();
+        initGame();
     }
 
     private static void initButtons(){
@@ -103,13 +103,6 @@ public class MainBoard {
         launchButtons.get(b_ROW - 1).setEnabled(true);
         launchButtons.get(b_ROW - 1).setBackground(Color.GRAY);
         launchButtons.get(b_ROW - 1).setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-        /*
-        for (int i=0; i<7; i++) {
-            System.out.println(boardButtons.get(i).size());
-            System.out.println(selectorButtons.get(i).getIcon());
-        }
-        */
     }
 
     public static void initJFrame() {
@@ -239,26 +232,6 @@ public class MainBoard {
             launchPanel.setMaximumSize(new Dimension(appSize - appSize * (5 / 6), (appSize + appSize / 2) - appSize / 6));
             launchPanel.setBackground(new Color(0x33aa11));
 
-            /*
-            GroupLayout launch_GroupLayout = new GroupLayout (launchPanel);
-            launchPanel.setLayout(launch_GroupLayout);
-
-            launch_GroupLayout.setAutoCreateGaps(true);
-            launch_GroupLayout.setAutoCreateContainerGaps(true);
-
-
-            GroupLayout.SequentialGroup l_vSequentialGroup = launch_GroupLayout.createSequentialGroup();
-            l_vSequentialGroup.addGap(10);
-            GroupLayout.ParallelGroup launch_v_pGroup = launch_GroupLayout.createParallelGroup(
-                    GroupLayout.Alignment.LEADING
-            );
-            for (int i = 0; i < launchButtons.size(); i++){
-                launch_v_pGroup.addComponent(launchButtons.get(i));
-            }
-            l_vSequentialGroup.addGroup(launch_v_pGroup);
-            launch_GroupLayout.setVerticalGroup(l_vSequentialGroup);
-            */
-
             launchPanel.setLayout(new BoxLayout(launchPanel, BoxLayout.PAGE_AXIS));
             launchPanel.add(Box.createRigidArea(new Dimension(4,27)));
             for (int i = 0; i < launchButtons.size();i++){
@@ -357,7 +330,7 @@ public class MainBoard {
         }
     }
 
-    private static void game() {
+    private static void initGame() {
         Random rand = new Random();
 
         // find a unique set of balls
@@ -386,7 +359,7 @@ public class MainBoard {
                 isAllUnique = true;
             }
         }
-        System.out.println(pass);
+        // System.out.println(pass);
 
 
 
@@ -465,7 +438,7 @@ public class MainBoard {
         ImageIcon redImage = new ImageIcon("assetPNG/pin_red.png");
         ImageIcon whiteImage = new ImageIcon("assetPNG/pin_white.png");
         for (int i = 0; i < b_COLUMN; i++) {
-            System.out.println(redPins + " " + whitePins);
+            // System.out.println(redPins + " " + whitePins);
             JLabel pin = (JLabel) pinPanel_Group.get(row).getComponent(i);
             if (redPins > 0) {
                 pin.setIcon(redImage);
@@ -479,16 +452,15 @@ public class MainBoard {
     }
 
     private static void updateFinalPins() {
-
         for (int i = 0; i < b_COLUMN; i++){
             JLabel pin = targets.get(i);
-            pin.setIcon(selectorButtons.get(pass.get(i)).getIcon());
+            ImageIcon realImage = new ImageIcon(iconPaths[pass.get(i)]);
+            pin.setIcon(realImage);
             pin.setVisible(true);
         }
     }
 
     private static class buttonHandler implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             for (int i = 0; i < selectorButtons.size(); i++) {
@@ -514,28 +486,24 @@ public class MainBoard {
                     GameGuess pad = new GameGuess(pass,boardGuesses.get(i));
                     if (pad.getStatus()[0]) {
                         System.out.println("Interrupt");
-                        System.out.println(Arrays.toString(pad.getStatus()));
                         emptySign.setVisible(true);
                         try {
                             new PlaySounds(2);
                         } catch (InterruptedException | IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
-                            System.out.println(ex);
                             ex.printStackTrace();
                         }
                     }else{
                         emptySign.setVisible(false);
-                        System.out.println(pass);
-                        System.out.println("The Guess is: " + boardGuesses.get(i));
-                        System.out.println(Arrays.toString(pad.getStatus()));
-                        System.out.println(Arrays.toString(pad.getNumericalData()));
                         updatePins(pad.getNumericalData()[1],pad.getNumericalData()[0], i);
                         buttonRefactor(i, 0, buttonType.LAUNCHER_BUTTONS);
-                        try {
-                            new PlaySounds(4);
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                            ex.printStackTrace();
+                        if (i < launchButtons.size() + 1 & !pad.getStatus()[3]) {
+                            try {
+                                new PlaySounds(4);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                         }
+
                         if (pad.getStatus()[3]){
                             try {
                                 new WinPanel(appSize*3);
@@ -544,12 +512,14 @@ public class MainBoard {
                             }
                             updateFinalPins();
                         }
+
                         if (i == 0 & !pad.getStatus()[3]){
                             try {
                                 new FailPanel(appSize*3);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
+                            updateFinalPins();
                         }
                     }
 

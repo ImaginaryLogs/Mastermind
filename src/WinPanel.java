@@ -31,6 +31,8 @@ public class WinPanel{
 
         winFrame.pack();
         new PlaySounds(1);
+
+        Thread.sleep(2000);
         winFrame.add(winText);
     }
 }

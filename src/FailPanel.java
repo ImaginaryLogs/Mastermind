@@ -26,8 +26,9 @@ public class FailPanel{
         failText.setOpaque(true);
 
         failFrame.pack();
-
+        Thread.sleep(2890);
         new PlaySounds(3);
+        Thread.sleep(6000);
         failFrame.add(failText);
     }
 }
