@@ -166,7 +166,7 @@ public class MainBoard {
 
             for (JButton i : selectorButtons) {
                 selectorPanel.add(i);
-                i.setBackground(Color.gray);
+                i.setBackground(new Color(0x566845));
             }
             FlowLayout selector_Layout = new FlowLayout(FlowLayout.CENTER, 5, 5);
             selector_Layout.setVgap(16);
