@@ -5,11 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 
 public class MainBoard {
+    // Colors for quick comparison
+
+
     // Visualization
     private static final ArrayList<ArrayList<JButton>> boardButtons = new ArrayList<>();
     private static final ArrayList<ArrayList<Integer>> boardGuesses = new ArrayList<>();
@@ -28,20 +30,19 @@ public class MainBoard {
 
     // Game
     private static boolean isAllUnique = false;
-    private static boolean hasFound = false;
-    private static final ArrayList<Integer> pass = new ArrayList<Integer>();
+    private static final ArrayList<Integer> pass = new ArrayList<>();
     private static int chosenBall = 9;
-    private static JButton currentButton;
+
     private enum buttonType{
         BOARD_BUTTONS,
         SELECTOR_BUTTONS,
         LAUNCHER_BUTTONS
     }
-    private static JLabel emptySign = new JLabel();
+    private static final JLabel emptySign = new JLabel();
 
 
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException  {
-        MainBoard game = new MainBoard();
+        new MainBoard();
     }
 
     MainBoard() throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
@@ -55,12 +56,12 @@ public class MainBoard {
 
         // All board buttons initialized
         for (int i=0; i<b_ROW; i++) {
-            ArrayList<JButton> subList_JButton = new ArrayList<JButton>();
-            ArrayList<Integer> sublist_Integer = new ArrayList<Integer>();
+            ArrayList<JButton> subList_JButton = new ArrayList<>();
+            ArrayList<Integer> sublist_Integer = new ArrayList<>();
             for (int j=0; j<b_COLUMN; j++) {
                 JButton button = new JButtonConstructor(3, 30, "");
-                button.setBackground(Color.GRAY);
-                button.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                button.setBackground(new Color(0x91A47E));
+                button.setBorder(BorderFactory.createLineBorder(new Color(0x91A47E)));
                 button.addActionListener(handler);
                 subList_JButton.add(button);
                 sublist_Integer.add(9);
@@ -71,8 +72,10 @@ public class MainBoard {
         for (int i=0; i<b_ROW - 1; i++){
             for (int j=0; j<b_COLUMN; j++){
                 boardButtons.get(i).get(j).setEnabled(false);
-                boardButtons.get(i).get(j).setBorder(BorderFactory.createLineBorder(new Color(0x333333)));
-                boardButtons.get(i).get(j).setBackground(new Color(0x333333));
+                boardButtons.get(i).get(j).setBorder(BorderFactory.createLineBorder(new Color(0x566845)));
+                boardButtons.get(i).get(j).setBackground(new Color(0x566845));
+
+
             }
         }
 
@@ -93,16 +96,18 @@ public class MainBoard {
         // Launch buttons initialized
         for (int i = 0; i<b_ROW; i++){
             JButton button = new JButtonConstructor(1, 0, "Submit");
-            button.setBackground(new Color(0x333333));
-            button.setBorder(BorderFactory.createLineBorder(new Color(0x333333)));
+            button.setBackground(new Color(0x566845));
+            button.setBorder(BorderFactory.createLineBorder(new Color(0x566845)));
+
+
             button.setEnabled(false);
             button.setMaximumSize(new Dimension(74, 26));
             launchButtons.add(button);
             button.addActionListener(handler);
         }
         launchButtons.get(b_ROW - 1).setEnabled(true);
-        launchButtons.get(b_ROW - 1).setBackground(Color.GRAY);
-        launchButtons.get(b_ROW - 1).setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        launchButtons.get(b_ROW - 1).setBackground(new Color(0x91A47E));
+        launchButtons.get(b_ROW - 1).setBorder(BorderFactory.createLineBorder(new Color(0x91A47E)));
     }
 
     public static void initJFrame() {
@@ -128,10 +133,10 @@ public class MainBoard {
             for (int i=0; i<b_ROW; i++){
                 JPanel panel = new JPanel();
                 panel.setSize(50,50);
-                panel.setBackground(new Color(0x79B45C));
+                panel.setBackground(new Color(0x97A23C));
                 panel.setVisible(true);
 
-                ArrayList<JLabel> tempLabels = new ArrayList<JLabel>();
+                ArrayList<JLabel> tempLabels = new ArrayList<>();
                 FlowLayout pinLayout = new FlowLayout(FlowLayout.LEADING, 18,7);
 
                 for (int j=0; j<b_COLUMN; j++){
@@ -141,7 +146,9 @@ public class MainBoard {
                         ImageIcon image = new ImageIcon("assetPNG/pin_black.png");
                         tempLabel.setIcon(image);
                     }
-                    catch(Exception e) {}
+                    catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
                     panel.setLayout(pinLayout);
                     tempLabels.add(tempLabel);
                     panel.add(tempLabel);
@@ -169,7 +176,7 @@ public class MainBoard {
         // boardPanel
         {
             boardPanel.setSize(appSize - appSize/6, (appSize + appSize/2) - appSize/6);
-            boardPanel.setBackground(new Color(0x996644));
+            boardPanel.setBackground(new Color(0x7B6843));
 
             // Group Layout
             GroupLayout board_GroupLayout = new GroupLayout (boardPanel);
@@ -203,8 +210,8 @@ public class MainBoard {
                 GroupLayout.ParallelGroup h_pGroup = board_GroupLayout.createParallelGroup(
                         GroupLayout.Alignment.LEADING
                 );
-                for (int j = 0; j < boardButtons.size(); j++){
-                    h_pGroup.addComponent(boardButtons.get(j).get(i),100,100,100);
+                for (ArrayList<JButton> boardButton : boardButtons) {
+                    h_pGroup.addComponent(boardButton.get(i), 100, 100, 100);
                     h_pGroup.addGap(50);
                 }
                 b_hSequentialGroup.addGroup(h_pGroup);
@@ -215,8 +222,8 @@ public class MainBoard {
                     GroupLayout.Alignment.LEADING
             );
 
-            for (int k = 0; k < pinPanel_Group.size(); k++){
-                h_pGroup.addComponent(pinPanel_Group.get(k), 88,88,88);
+            for (JPanel panel : pinPanel_Group) {
+                h_pGroup.addComponent(panel, 88, 88, 88);
                 h_pGroup.addGap(50);
             }
 
@@ -230,7 +237,7 @@ public class MainBoard {
             launchPanel.setSize(appSize - appSize * (5 / 6), (appSize + appSize / 2) - appSize / 6);
             launchPanel.setMinimumSize(new Dimension(appSize - appSize * (5 / 6), (appSize + appSize / 2) - appSize / 6));
             launchPanel.setMaximumSize(new Dimension(appSize - appSize * (5 / 6), (appSize + appSize / 2) - appSize / 6));
-            launchPanel.setBackground(new Color(0x33aa11));
+            launchPanel.setBackground(new Color(0x5B892E));
 
             launchPanel.setLayout(new BoxLayout(launchPanel, BoxLayout.PAGE_AXIS));
             launchPanel.add(Box.createRigidArea(new Dimension(4,27)));
@@ -243,7 +250,10 @@ public class MainBoard {
         // revealPanel
         {
             revealPanel.setSize(appSize, appSize/6);
-            revealPanel.setBackground(new Color(0xB46041));
+            revealPanel.setBackground(new Color(0x566845));
+
+            // GridBagLayout and adjusting the empty balls warning sign
+
             GridBagLayout revealGBL = new GridBagLayout();
             revealPanel.setLayout(revealGBL);
             GridBagConstraints gbc = new GridBagConstraints();
@@ -262,7 +272,8 @@ public class MainBoard {
                     ImageIcon image = new ImageIcon("assetPNG/blackball.png");
                     targetLabel.setIcon(image);
 
-                } catch (Exception e) {
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
                 targets.add(targetLabel);
                 revealPanel.add(targetLabel, gbc);
@@ -278,32 +289,6 @@ public class MainBoard {
             gbc.anchor = GridBagConstraints.PAGE_END;
             gbc.gridwidth = 4;
             revealPanel.add(emptySign, gbc);
-        //             Horizontal
-//            GroupLayout.SequentialGroup r_hSequentialGroup = revealLayout.createSequentialGroup();
-//
-//            GroupLayout.ParallelGroup h_pGroup = revealLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
-//            for (int i=0; i < targets.size(); i++){
-//                h_pGroup.addComponent(targets.get(i));
-//                h_pGroup.addGap(40);
-//            }
-//            r_hSequentialGroup.addGroup(h_pGroup);
-//            r_hSequentialGroup.addComponent(emptySign);
-//            revealLayout.setVerticalGroup(r_hSequentialGroup);
-//
-//            // Horizontal
-//            GroupLayout.SequentialGroup r_xSequentialGroup = revealLayout.createSequentialGroup();
-//            GroupLayout.ParallelGroup x_pGroup1 = revealLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
-//            x_pGroup1.addComponent(emptySign);
-//            r_xSequentialGroup.addGroup(x_pGroup1);
-//            for (int i=0; i < targets.size(); i++){
-//                GroupLayout.ParallelGroup x_pGroup = revealLayout.createParallelGroup(GroupLayout.Alignment.LEADING);
-//                x_pGroup.addComponent(targets.get(i));
-//                x_pGroup.addGap(40);
-//                r_xSequentialGroup.addGroup(x_pGroup);
-//            }
-//
-//
-//            revealLayout.setHorizontalGroup(r_xSequentialGroup);
         }
 
         // final stuff
@@ -335,7 +320,7 @@ public class MainBoard {
 
         // find a unique set of balls
         while (!isAllUnique){
-            hasFound = false;
+            boolean hasFound = false;
             int someRandom = rand.nextInt(8);
             if (!hasFound) {
                 try {
@@ -395,39 +380,36 @@ public class MainBoard {
                 }
                 break;
             case LAUNCHER_BUTTONS:
-                boolean isValidGuess = true;
                 // add checker function
-                if (isValidGuess) {
-                    for (int i = 0; i < boardButtons.get(row).size(); i++) {
-                        JButton tempCurrentButton = boardButtons.get(row).get(i);
-                        tempCurrentButton.setDisabledIcon(boardButtons.get(row).get(i).getIcon());
-                        tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x333333)));
-                        tempCurrentButton.setBackground(new Color(0x333333));
-                        tempCurrentButton.setEnabled(false);
+                for (int i = 0; i < boardButtons.get(row).size(); i++) {
+                    JButton tempCurrentButton = boardButtons.get(row).get(i);
+                    tempCurrentButton.setDisabledIcon(boardButtons.get(row).get(i).getIcon());
+                    tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x566845)));
+                    tempCurrentButton.setBackground(new Color(0x566845));
+                    tempCurrentButton.setEnabled(false);
+                }
+                {
+                    JButton tempCurrentButton = launchButtons.get(row);
+                    tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x566845)));
+                    tempCurrentButton.setBackground(new Color(0x566845));
+                    tempCurrentButton.setEnabled(false);
+                }
+                try {
+                    for (int i = 0; i < boardButtons.get(row - 1).size(); i++) {
+
+                        JButton tempCurrentButton = boardButtons.get(row - 1).get(i);
+                        tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x91A47E)));
+                        tempCurrentButton.setBackground(new Color(0x91A47E));
+                        tempCurrentButton.setEnabled(true);
                     }
                     {
-                        JButton tempCurrentButton = launchButtons.get(row);
-                        tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x333333)));
-                        tempCurrentButton.setBackground(new Color(0x333333));
-                        tempCurrentButton.setEnabled(false);
+                        JButton tempCurrentButton = launchButtons.get(row - 1);
+                        tempCurrentButton.setBorder(BorderFactory.createLineBorder(new Color(0x91A47E)));
+                        tempCurrentButton.setBackground(new Color(0x91A47E));
+                        tempCurrentButton.setEnabled(true);
                     }
-                    try {
-                        for (int i = 0; i < boardButtons.get(row - 1).size(); i++) {
-
-                            JButton tempCurrentButton = boardButtons.get(row - 1).get(i);
-                            tempCurrentButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                            tempCurrentButton.setBackground(Color.GRAY);
-                            tempCurrentButton.setEnabled(true);
-                        }
-                        {
-                            JButton tempCurrentButton = launchButtons.get(row - 1);
-                            tempCurrentButton.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                            tempCurrentButton.setBackground(Color.GRAY);
-                            tempCurrentButton.setEnabled(true);
-                        }
-                    }
-                    catch(IndexOutOfBoundsException e) {}
                 }
+                catch(IndexOutOfBoundsException e) {}
                 break;
         }
     }
