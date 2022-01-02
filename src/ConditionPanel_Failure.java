@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class FailPanel{
-    FailPanel(int Appsize) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+public class ConditionPanel_Failure {
+    ConditionPanel_Failure(int Appsize) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         JLabel failText = new JLabel();
-        JFrame failFrame = new FrameSettings((Appsize + 16)/4);
+        JFrame failFrame = new JFrameConstructor((Appsize + 16)/4);
 
         failFrame.setLayout(new BorderLayout(10, 10));
 

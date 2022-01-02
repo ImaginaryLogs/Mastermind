@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class WinPanel{
-    WinPanel(int Appsize) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+public class ConditionPanel_Win {
+    ConditionPanel_Win(int Appsize) throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
         JLabel winText = new JLabel();
         JPanel winPanel = new JPanel();
-        JFrame winFrame = new FrameSettings((Appsize + 16)/4);
+        JFrame winFrame = new JFrameConstructor((Appsize + 16)/4);
 
         winFrame.setLayout(new BorderLayout(10, 10));
 
