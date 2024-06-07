@@ -3,9 +3,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class PlaySounds implements Runnable{
-    private static final String[] soundEffectPaths = {"soundEffects/bye-have-a-great-time.wav",
-            "soundEffects/kids-cheering-sound-effect.wav", "soundEffects/movie_1.wav",
-            "soundEffects/oh-no-no-no-no-laugh.wav", "soundEffects/vine-boom1.wav"};
+    private static final String[] soundEffectPaths = {"../sounds/bye-have-a-great-time.wav",
+            "../sounds/kids-cheering-sound-effect.wav", "../sounds/movie_1.wav",
+            "../sounds/oh-no-no-no-no-laugh.wav", "../sounds/vine-boom1.wav"};
     private static Clip clip;
     private static int effect;
 
@@ -24,7 +24,7 @@ public class PlaySounds implements Runnable{
     }
 
     public synchronized void tracker(int effect){
-        boolean isDone = true;
+
         Runnable r1 = new Runnable() {
             @Override
             public void run() {

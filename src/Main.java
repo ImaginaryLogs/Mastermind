@@ -13,23 +13,23 @@ public class Main {
     private static final ArrayList<ArrayList<JButton>> boardButtons = new ArrayList<>();
     private static final ArrayList<ArrayList<Integer>> boardGuesses = new ArrayList<>();
     private static final ArrayList<JButton> selectorButtons = new ArrayList<>();
-    private static final String[] iconPaths = {"assetPNG/red_ball.png", "assetPNG/green_ball.png", "assetPNG/blue_ball.png", "assetPNG/yellow_ball.png",
-            "assetPNG/brown_ball.png", "assetPNG/orange_ball.png", "assetPNG/gray_ball.png", "assetPNG/white_ball.png"};
+    private static final String[] iconPaths = {"../assets/red_ball.png", "../assets/green_ball.png",
+            "../assets/blue_ball.png", "../assets/yellow_ball.png", "../assets/brown_ball.png", "../assets/orange_ball.png",
+            "../assets/gray_ball.png", "../assets/white_ball.png"};
     private static final ArrayList<JButton> launchButtons = new ArrayList<>();
     private static final ArrayList<JPanel> pinPanel_Group = new ArrayList<>();
-    private static final ArrayList<ArrayList> pins = new ArrayList<>();
+    private static ArrayList<ArrayList<JLabel>> pins = new ArrayList<>();
     private static final ArrayList<JLabel> targets = new ArrayList<>();
     private static final int appSize = 650;
     private static final int b_ROW = 10;
     private static final int b_COLUMN = 4;
     private static int previousDisabledButton;
-    private static final ImageIcon greyPNG = new ImageIcon("assetPNG/black_ball.png");
+    private static final ImageIcon greyPNG = new ImageIcon("assets/black_ball.png");
 
     // Game
     private static boolean isAllUnique = false;
     private static final ArrayList<Integer> pass = new ArrayList<>();
     private static int chosenBall = 9;
-
     private enum buttonType{
         BOARD_BUTTONS,
         SELECTOR_BUTTONS,
@@ -140,7 +140,7 @@ public class Main {
                     JLabel tempLabel = new JLabel();
                     tempLabel.setVisible(true);
                     try {
-                        ImageIcon image = new ImageIcon("assetPNG/pin_black.png");
+                        ImageIcon image = new ImageIcon("../assets/pin_black.png");
                         tempLabel.setIcon(image);
                     }
                     catch(Exception ex) {
@@ -266,7 +266,7 @@ public class Main {
                 JLabel targetLabel = new JLabel();
                 targetLabel.setVisible(true);
                 try {
-                    ImageIcon image = new ImageIcon("assetPNG/black_ball.png");
+                    ImageIcon image = new ImageIcon("assets/black_ball.png");
                     targetLabel.setIcon(image);
 
                 } catch (Exception ex) {
@@ -416,8 +416,8 @@ public class Main {
     private static void updatePins(int correctAll, int correctBalls, int row){
         int redPins = correctAll;
         int whitePins = correctBalls - correctAll;
-        ImageIcon redImage = new ImageIcon("assetPNG/pin_red.png");
-        ImageIcon whiteImage = new ImageIcon("assetPNG/pin_white.png");
+        ImageIcon redImage = new ImageIcon("../assets/pin_red.png");
+        ImageIcon whiteImage = new ImageIcon("../assets/pin_white.png");
         for (int i = 0; i < b_COLUMN; i++) {
             // System.out.println(redPins + " " + whitePins);
             JLabel pin = (JLabel) pinPanel_Group.get(row).getComponent(i);
@@ -451,7 +451,7 @@ public class Main {
             }
 
             for (int i = 0; i < boardButtons.size(); i++) {
-                ArrayList currentGuessRow = boardGuesses.get(i);
+                ArrayList<Integer> currentGuessRow = boardGuesses.get(i);
                 for (int j = 0; j < boardButtons.get(i).size(); j++) {
                     if (e.getSource() == boardButtons.get(i).get(j)){
                         currentGuessRow.set(j, chosenBall);
